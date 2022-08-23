@@ -1,28 +1,30 @@
-export class FfmpegBuilder {
-    private inputPath: string;
-    private options: Map<string, string> = new Map();
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FfmpegBuilder = void 0;
+class FfmpegBuilder {
     constructor() {
+        this.options = new Map();
         this.options.set("-c:v", "libx264");
     }
-    input(inputPath: string): this {
+    input(inputPath) {
         this.inputPath = inputPath;
         return this;
     }
-    setVideoSize(width: number,height: number): this {
+    setVideoSize(width, height) {
         this.options.set("-s", `${width}x${height}`);
         return this;
     }
-    output(outputPath: string): string[] {
+    output(outputPath) {
         if (!this.inputPath) {
             throw new Error("Не задан инпут");
         }
-        const args: string[] = ["-i", this.inputPath];
+        const args = ["-i", this.inputPath];
         this.options.forEach((value, key) => {
             args.push(key);
             args.push(value);
         });
-        args.push(outputPath)
+        args.push(outputPath);
         return args;
     }
 }
+exports.FfmpegBuilder = FfmpegBuilder;
